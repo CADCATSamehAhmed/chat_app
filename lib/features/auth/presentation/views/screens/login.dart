@@ -1,5 +1,5 @@
 import 'package:chat_app/core/constants/variables.dart';
-import 'package:chat_app/features/auth/presentation/views/widgets/auth%20_footer.dart';
+import 'package:chat_app/features/auth/presentation/views/widgets/auth_footer.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/core/themes/styles.dart';
 import 'package:chat_app/features/auth/presentation/views/widgets/auth_logo.dart';
