@@ -2,6 +2,7 @@ import 'package:chat_app/features/auth/presentation/views/screens/login.dart';
 import 'package:chat_app/features/auth/presentation/views/screens/signup.dart';
 import 'package:chat_app/features/splash/presentation/views/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'core/constants/variables.dart';
 
 void main() {
@@ -16,7 +17,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
-    return MaterialApp(
+    return GetMaterialApp(
+      debugShowCheckedModeBanner :false,
       title: 'Chat App',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

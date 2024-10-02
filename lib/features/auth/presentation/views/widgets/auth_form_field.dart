@@ -17,32 +17,29 @@ class AuthFormFiled extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(screenWidth*.05),
-      child: TextFormField(
-        controller: controller,
-        keyboardType: type,
-        obscureText: obscureText,
-        cursorColor: AppColors.mainColor,
-        textAlign: TextAlign.start,
-        validator: validate,
-        onTap: onTap,
-        style: Fonts.font18,
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.white,
-          helperText: label,
-          helperStyle: Fonts.font18,
-          prefixIcon: Icon(prefixIcon),
-          suffixIcon: suffixIcon,
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(25),
-            borderSide: BorderSide(color:Colors.grey.withOpacity(.1),),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
-            borderSide: BorderSide(color: AppColors.mainColor, width: 1.5),
-          ),
+    return TextFormField(
+      controller: controller,
+      keyboardType: type,
+      obscureText: obscureText,
+      cursorColor: AppColors.mainColor,
+      textAlign: TextAlign.start,
+      validator: validate,
+      onTap: onTap,
+      style: Fonts.font14,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.transparent,
+        hintText: label,
+        hintStyle: Fonts.font18.copyWith(color: Colors.grey.shade600),
+        prefixIcon: Icon(prefixIcon),
+        suffixIcon: suffixIcon,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(25),
+          borderSide: BorderSide(color:Colors.grey.shade500,),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(5),
+          borderSide: BorderSide(color: AppColors.mainColor, width: 1.5),
         ),
       ),
     );

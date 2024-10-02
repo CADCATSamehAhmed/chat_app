@@ -1,3 +1,4 @@
+import 'package:chat_app/core/constants/variables.dart';
 import 'package:chat_app/features/auth/presentation/views/widgets/auth%20_footer.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/core/themes/styles.dart';
@@ -17,14 +18,16 @@ class LoginScreen extends StatelessWidget {
       body: Form(
         key: formKey,
         child: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: EdgeInsets.symmetric(horizontal: screenWidth*.05),
           child: SingleChildScrollView(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              spacing: screenWidth*.05,
               children: [
-                const AuthLogo(),
+                AuthLogo(size: screenWidth*.7,),
                 Text(
                   'Log in to your account',
-                  style: Fonts.font30,
+                  style: Fonts.font23,
                 ),
                 AuthFormFiled(
                   context: context,

@@ -1,3 +1,4 @@
+import 'package:chat_app/core/constants/variables.dart';
 import 'package:chat_app/core/themes/colors.dart';
 import 'package:chat_app/core/themes/styles.dart';
 import 'package:flutter/material.dart';
@@ -12,14 +13,14 @@ class AuthFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 30),
+      padding: EdgeInsets.only(top: screenWidth*.02),
       child: Row(
         spacing: 10,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             longText,
-            style: Fonts.font18,
+            style: Fonts.font14,
           ),
           TextButton(
             onPressed: () {
@@ -27,7 +28,7 @@ class AuthFooter extends StatelessWidget {
             },
             child: Text(
               shortText,
-              style: Fonts.font18.copyWith(color: AppColors.mainColor),
+              style: Fonts.font14.copyWith(color: AppColors.mainColor),
             ),
           ),
         ],

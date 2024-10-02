@@ -28,13 +28,10 @@ class SplashScreenState extends State<SplashScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Padding(
-            padding:  EdgeInsets.fromLTRB(screenWidth*.3,screenWidth*.3,screenWidth*.3,screenWidth*.05),
-            child: Image(image: AssetImage(PngImages.splashLogo),),
-          ),
-          Text('WhatsUp',style: Fonts.font30.copyWith(color: AppColors.mainColor),),
+          Image(image: AssetImage(PngImages.splashLogo),height: screenWidth*.6,width: screenWidth*.6,),
+          Text('WhatsUp',style: Fonts.font25.copyWith(color: AppColors.mainColor),),
           SizedBox(height: screenWidth*.4),
-          Text('The best chat app in this century',style: Fonts.font18,),
+          Center(child: Text('The best chat app in this century',style: Fonts.font18,)),
         ],
       ),
     );

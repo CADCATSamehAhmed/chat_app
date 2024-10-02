@@ -1,3 +1,4 @@
+import 'package:chat_app/core/constants/variables.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/core/themes/colors.dart';
 import 'package:chat_app/core/themes/styles.dart';
@@ -13,23 +14,17 @@ class AuthButton extends StatelessWidget {
     return InkWell(
         onTap: onPressed,
         child: Container(
-          width: 300,
+          width: screenWidth*.9,
           padding: const EdgeInsets.symmetric(horizontal: 18,vertical: 9),
           decoration: BoxDecoration(
-              boxShadow: [BoxShadow(color:AppColors.mainColor)],
-              gradient: LinearGradient(
-                  colors: [AppColors.mainColor]
-              ),
-              borderRadius: BorderRadius.circular(18)
+            color:AppColors.mainColor,
+            borderRadius: BorderRadius.circular(25)
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                text,
-                style: Fonts.font18,
-              ),
-            ],
+          child: Center(
+            child: Text(
+              text,
+              style: Fonts.font25,
+            ),
           ),
         ),
       );
