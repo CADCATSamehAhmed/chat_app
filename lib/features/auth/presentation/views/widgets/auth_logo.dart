@@ -9,7 +9,7 @@ class AuthLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Image(image: AssetImage(PngImages.splashLogo),fit: BoxFit.cover,width: size,),
+        Image(image: AssetImage(Images.logo),fit: BoxFit.cover,width: size,),
       ],
     );
   }

@@ -24,4 +24,8 @@ abstract class Fonts{
     color: Colors.black,
     fontSize: 14,
   );
+  static TextStyle font12 = GoogleFonts.inter(
+    color: Colors.grey,
+    fontSize: 12,
+  );
 }

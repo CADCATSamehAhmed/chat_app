@@ -37,6 +37,18 @@ dependencies:
   cupertino_icons: ^1.0.8
   get: ^4.6.6
   google_fonts: ^6.2.1
+  firebase_auth: ^5.3.1
+  flutter_bloc: ^8.1.6
+  bloc: ^8.1.4
+  shared_preferences: ^2.3.2
+  dotted_box: ^0.0.3
+  percent_indicator: ^4.2.3
+  file_picker: ^8.1.2
+  animate_do: ^3.3.4
+  firebase_core: ^3.6.0
+  cloud_firestore: ^5.4.4
+  firebase_storage: ^12.3.4
+  cached_network_image: ^3.4.1
 
 dev_dependencies:
   flutter_test:
