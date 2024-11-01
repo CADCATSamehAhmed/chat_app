@@ -2,11 +2,11 @@ import 'package:chat_app/core/constants/variables.dart';
 import 'package:chat_app/core/shared_prefences/cache_helper.dart';
 import 'package:chat_app/core/shared_widgets/default_snack_bar.dart';
 import 'package:chat_app/features/auth/data/repo/auth_repo.dart';
+import 'package:chat_app/features/home/presentation/views/home_view.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
 abstract class AuthStates {}
-
 class AuthInitialState extends AuthStates {}
 class ChangePasswordVisibleState extends AuthStates {}
 class AuthLoadingState extends AuthStates {}
@@ -15,10 +15,8 @@ class LoginErrorWrongPasswordState extends AuthStates {}
 class LoginErrorUserNotFoundState extends AuthStates {}
 class SignupErrorWeakPasswordState extends AuthStates {}
 class SignupErrorEmailAlreadyInUseState extends AuthStates {}
-
 class AuthErrorState extends AuthStates {
   final String error;
-
   AuthErrorState(this.error);
 }
 
@@ -44,7 +42,7 @@ class AuthCubit extends Cubit<AuthStates> {
     if (statusCode == 200) {
       uid=authRepo.uid;
       CacheHelper.saveData(key: 'uid', value: authRepo.uid);
-      Get.offNamed('home');
+      Get.off(()=>const HomeView());
       emit(AuthSuccessState());
     } else if (statusCode == 400) {
       emit(LoginErrorWrongPasswordState());
@@ -67,7 +65,7 @@ class AuthCubit extends Cubit<AuthStates> {
       if (statusCode == 200) {
         uid=authRepo.uid;
         CacheHelper.saveData(key: 'uid', value: authRepo.uid);
-        Get.offNamed('home');
+        Get.off(()=>const HomeView());
         emit(AuthSuccessState());
       } else if (statusCode == 402) {
         emit(SignupErrorWeakPasswordState());

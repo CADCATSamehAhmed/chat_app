@@ -1,77 +1,80 @@
 import 'package:chat_app/core/constants/variables.dart';
-import 'package:chat_app/core/themes/colors.dart';
+import 'package:chat_app/core/shared_widgets/default_icon_button.dart';
+import 'package:chat_app/core/shared_widgets/default_loading.dart';
 import 'package:chat_app/core/themes/styles.dart';
-import 'package:chat_app/features/chat/presentation/view_model/chat_cubit.dart';
-import 'package:chat_app/features/chat/presentation/views/widgets/start_new_group_body.dart';
 import 'package:chat_app/features/home/presentation/view_model/home_cubit.dart';
 import 'package:chat_app/features/home/presentation/views/widgets/search_body.dart';
-import 'package:chat_app/features/profile/presentation/view_model/profile_cubit.dart';
+import 'package:chat_app/features/profile/presentation/views/profile_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart' as get_x;
 
-PreferredSizeWidget homeAppBar(BuildContext context) {
-  final GlobalKey menuKey = GlobalKey();
-  return AppBar(
-    toolbarHeight: screenHeight * .11,
-    backgroundColor: AppColors.appBarBackGroundColor,
-    shape: const Border(bottom: BorderSide(color: Colors.grey)),
-    leading: const SizedBox(width: 10),
-    title: Text(
-      'WhatsUp',
-      style: Fonts.font25,
-    ),
-    actions: [
-      IconButton(
-          onPressed: () {
-            showSearch(context: context, delegate: CustomSearch());
-          },
-          icon: const Icon(
-            Icons.search,
-            color: Colors.black,
-          )),
-      BlocConsumer<HomeCubit, HomeStates>(
-          listener: (context, state) {},
-          builder: (context, state) {
-            return PopupMenuButton<String>(
-              key: menuKey,
-              onSelected: (String value) {
-                if (value == 'New Group') {
-                  ChatCubit.get(context).getUsers();
-                  get_x.Get.to(()=>const StartNewGroupBody(),transition: get_x.Transition.rightToLeft);
-                }else if (value == 'Profile') {
-                  ProfileCubit.get(context).getUserData();
-                  get_x.Get.toNamed('profile');
-                } else if (value == 'Logout') {
-                  HomeCubit.get(context).logOut();
-                }
-              },
-              color: AppColors.appBarBackGroundColor,
-              itemBuilder: (BuildContext context) {
-                return items.map<PopupMenuEntry<String>>((String value) {
-                  return PopupMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      value,
-                      style: Fonts.font14,
-                    ),
-                  );
-                }).toList();
-              },
-              child: IconButton(
-                onPressed: () {
-                  final dynamic state = menuKey.currentState;
-                  state.showButtonMenu();
+class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const HomeAppBar({
+    super.key,
+  });
+  @override
+  Widget build(BuildContext context) {
+    final GlobalKey menuKey = GlobalKey();
+    return AppBar(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      toolbarHeight: 70.h,
+      shape: const Border(bottom: BorderSide(color: Colors.grey)),
+      title: Text(
+        appName,
+        style: Fonts.font25.copyWith(color: Theme.of(context).primaryColor),
+      ),
+      leadingWidth: 1.w,
+      actions: [
+        DefaultIconButton(
+            iconData: Icons.search,
+            onPressed: () {
+              showSearch(context: context, delegate: CustomSearch());
+            }),
+        SizedBox(width: 10.w),
+        BlocConsumer<HomeCubit, HomeStates>(
+            listener: (context, state) {},
+            builder: (context, state) {
+              return PopupMenuButton<String>(
+                key: menuKey,
+                color: Theme.of(context).scaffoldBackgroundColor,
+                onSelected: (String value) {
+                  if (value == 'dark_light') {
+                    HomeCubit.get(context).changeAppMode();
+                  } else if (value == 'Profile') {
+                    get_x.Get.to(() => const ProfileView(),
+                        transition: get_x.Transition.rightToLeft);
+                  } else if (value == 'Logout') {
+                    defaultLoading(
+                      context: context,
+                        asyncFunction: HomeCubit.get(context).logOut());
+                  }
                 },
-                icon: const Icon(
-                  Icons.more_vert,
-                  color: Colors.black,
-                ),
-              ),
-            );
-          }),
-    ],
-  );
+                itemBuilder: (BuildContext context) {
+                  return items.map<PopupMenuEntry<String>>((String value) {
+                    return PopupMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value,
+                        style: Fonts.font14.copyWith(color: Theme.of(context).primaryColorDark),
+                      ),
+                    );
+                  }).toList();
+                },
+                child: DefaultIconButton(
+                    iconData: Icons.more_vert,
+                    onPressed: () {
+                      final dynamic state = menuKey.currentState;
+                      state.showButtonMenu();
+                    }),
+              );
+            }),
+        SizedBox(width: 10.w),
+      ],
+    );
+  }
+  @override
+  Size get preferredSize => Size.fromHeight(70.h);
 }
-
-final List<String> items = ['New Group', 'Profile', 'Logout'];
+final List<String> items = ['dark_light', 'Profile', 'Logout'];

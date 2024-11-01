@@ -1,7 +1,8 @@
-import 'package:chat_app/core/themes/colors.dart';
 import 'package:chat_app/features/chat/data/models/chat_model.dart';
-import 'package:chat_app/features/chat/presentation/views/widgets/inside_chat_body.dart';
-import 'widgets/chat_appbar.dart';
+import 'package:chat_app/features/chat/presentation/view_model/chat_cubit.dart';
+import 'package:chat_app/features/chat/presentation/views/widgets/chat/inside_chat_body.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'widgets/chat/chat_appbar.dart';
 import 'package:flutter/material.dart';
 
 class InsideChatView extends StatelessWidget {
@@ -10,11 +11,14 @@ class InsideChatView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.scaffoldBackGroundColor,
-      appBar: chatAppBar(chat: chat),
-      body: InsideChatBody(chat: chat,),
-      resizeToAvoidBottomInset: true,
+    return BlocProvider(
+      create: (context) => ChatCubit(),
+      child: Scaffold(
+        backgroundColor: Theme.of(context).canvasColor,
+        appBar: ChatAppBar(chat: chat),
+        body: InsideChatBody(chat: chat,),
+        resizeToAvoidBottomInset: true,
+      ),
     );
   }
 }

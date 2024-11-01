@@ -10,15 +10,13 @@ abstract class MyCustomColor{
   }
 
   static List<Color> colors = [
-    Colors.grey,
-    Colors.green,
     Colors.blue,
     Colors.red,
     Colors.yellow,
-    Colors.brown,
     Colors.purple,
     Colors.orange,
+    Colors.brown,
+    Colors.grey,
+    Colors.green,
   ];
-
-
 }

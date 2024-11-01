@@ -1,10 +1,10 @@
-import 'package:chat_app/core/themes/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 Future<void> defaultLoading({
   Color? color,
-  int? time,
+  required BuildContext context,
   required Future<dynamic> asyncFunction,
 }) async {
   return Get.showOverlay(
@@ -13,14 +13,14 @@ Future<void> defaultLoading({
     },
     loadingWidget: Center(
       child: Container(
-        padding:const EdgeInsets.all(20),
+        padding:const EdgeInsets.all(20).w,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: Colors.white,
+          borderRadius: BorderRadius.circular(15).r,
+          color: Theme.of(context).scaffoldBackgroundColor,
         ),
         child: CircularProgressIndicator(
-          strokeWidth: 6,
-          color: color ?? AppColors.mainColor,
+          strokeWidth: 6.w,
+          color: color ?? Theme.of(context).primaryColor,
         ),
       ),
     ), // Optional: custom loading widget

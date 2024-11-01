@@ -1,4 +1,3 @@
-import 'package:chat_app/core/constants/variables.dart';
 import 'package:chat_app/core/shared_widgets/default_loading.dart';
 import 'package:chat_app/core/themes/styles.dart';
 import 'package:chat_app/features/auth/presentation/view_model/auth_cubit.dart';
@@ -11,6 +10,7 @@ import 'package:chat_app/features/auth/presentation/views/widgets/phone_field.da
 import 'package:flutter/material.dart';
 import 'package:chat_app/features/auth/presentation/views/widgets/auth_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignupBody extends StatelessWidget {
   const SignupBody({super.key});
@@ -24,8 +24,7 @@ class SignupBody extends StatelessWidget {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     return BlocProvider<AuthCubit>(
       create: (BuildContext context) => AuthCubit(),
-      child:
-          BlocConsumer<AuthCubit, AuthStates>(listener: (context, state) {
+      child: BlocConsumer<AuthCubit, AuthStates>(listener: (context, state) {
         AuthCubit.get(context).checkState(state);
       }, builder: (context, state) {
         AuthCubit cubit = AuthCubit.get(context);
@@ -33,38 +32,46 @@ class SignupBody extends StatelessWidget {
           body: Form(
             key: formKey,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: screenWidth * .05),
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  spacing: screenWidth * .05,
                   children: [
                     AuthLogo(
-                      size: screenWidth * .5,
+                      size: 180.w,
                     ),
+                    SizedBox(height: 10.h),
                     Text(
                       'Register To New Account',
-                      style: Fonts.font23,
+                      style: Fonts.font23
+                          .copyWith(color: Theme.of(context).primaryColorDark),
                     ),
+                    SizedBox(height: 10.h),
                     NameField(nameController: nameController),
+                    SizedBox(height: 10.h),
                     EmailField(emailController: emailController),
+                    SizedBox(height: 10.h),
                     PhoneField(phoneController: phoneController),
+                    SizedBox(height: 10.h),
                     PasswordField(
                         passwordController: passwordController,
                         toggleVisibility: cubit.changePasswordVisible,
                         isPasswordVisible: cubit.obscurePassword),
+                    SizedBox(height: 20.h),
                     AuthButton(
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
                             defaultLoading(
+                                context: context,
                                 asyncFunction: cubit.signUp(
                                     name: nameController.text,
                                     email: emailController.text,
-                                    phone: passwordController.text,
+                                    phone: phoneController.text,
                                     password: passwordController.text));
                           }
                         },
                         text: 'Sign Up'),
+                    SizedBox(height: 10.h),
                     const AuthFooter(
                         longText: "Already have an account?",
                         shortText: "Login here",

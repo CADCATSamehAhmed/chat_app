@@ -7,12 +7,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 abstract class ProfileStates {}
 class ProfileInitialState extends ProfileStates {}
-class GetProfileState extends ProfileStates {}
-class ChangeUserNameState extends ProfileStates {}
-class ChangeUserPhoneState extends ProfileStates {}
+class GetUserDataLoadingState extends ProfileStates {}
+class GetUserDataSuccessState extends ProfileStates {}
+class GetUserDataErrorState extends ProfileStates {}
+class UpdateUserDataLoadingState extends ProfileStates {}
+class UpdateUserDataSuccessState extends ProfileStates {}
+class UpdateUserDataErrorState extends ProfileStates {}
 class PickedProfileImageSuccessState extends ProfileStates {}
 class PickedProfileImageErrorState extends ProfileStates {}
-class UpdateProfileState extends ProfileStates {}
 
 class ProfileCubit extends Cubit<ProfileStates> {
   ProfileCubit() : super(ProfileInitialState());
@@ -28,13 +30,27 @@ class ProfileCubit extends Cubit<ProfileStates> {
   }
 
   void getUserData() async {
-    userModel = (await ProfileRepo.getProfileData())!;
-    emit(GetProfileState());
+    emit(GetUserDataLoadingState());
+    ProfileRepo.getProfileData().then((value){
+      if(value != null){
+        userModel = value;
+        emit(GetUserDataSuccessState());
+      }
+      else{
+        emit(GetUserDataErrorState());
+      }
+    });
   }
 
   Future<void> updateProfile(String name,String phone) async {
-    await profileRepo.updateProfileData(name,phone,file!);
-    emit(UpdateProfileState());
+    emit(UpdateUserDataLoadingState());
+    profileRepo.updateProfileData(name,phone,file!).then((value){
+      if(value){
+        emit(UpdateUserDataSuccessState());
+      }else{
+        emit(UpdateUserDataErrorState());
+      }
+    });
   }
 
   Future<void> pickProfileImage() async {
@@ -45,6 +61,7 @@ class ProfileCubit extends Cubit<ProfileStates> {
       emit(PickedProfileImageSuccessState());
     } catch (error) {
       emit(PickedProfileImageErrorState());
+      rethrow;
     }
   }
 }

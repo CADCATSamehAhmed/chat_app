@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:chat_app/core/constants/variables.dart';
+import 'package:chat_app/core/shared_prefences/functions/my_custom_datetime.dart';
 import 'package:chat_app/core/shared_prefences/functions/my_file_picker.dart';
 import 'package:chat_app/features/status/data/models/status_model.dart';
 import 'package:chat_app/features/status/data/models/statuses_model.dart';
@@ -29,38 +30,31 @@ class StatusCubit extends Cubit<StatusStates> {
 
   StatusRepo statusRepo = StatusRepo();
   StatusesModel? myStatus;
-
   List<StatusesModel> recentStatuses = [];
   List<StatusesModel> watchedStatuses = [];
   File? pickedMedia;
   PlatformFile? file;
 
   Stream<List<StatusesModel>> getAllStatuses() {
-    recentStatuses = [];
-    myStatus = null;
+    List<StatusesModel> statusesList = [];
     return FirebaseFirestore.instance
         .collection('users')
         .snapshots()
         .asyncMap((snapshot) async {
-      List<StatusesModel> statusesList = [];
-
       for (var doc in snapshot.docs) {
         String userId = doc['uid'];
         String name = doc['name'];
         String image = doc['image'];
-
         QuerySnapshot statusSnapshot = await FirebaseFirestore.instance
             .collection('users')
             .doc(userId)
             .collection('statuses')
             .orderBy('timestamp', descending: false)
             .get();
-
         List<StatusModel> statuses = statusSnapshot.docs.map((statusDoc) {
           return StatusModel.fromJson(statusDoc.data() as Map<String, dynamic>);
         }).toList();
-
-        if (statuses.isNotEmpty) {
+        if (statuses.isNotEmpty && MyCustomDateTime.checkIfStatusExpired(statuses.last.timestamp.toDate())) {
           StatusesModel statusesModel = StatusesModel(
             statuses: statuses,
             uId: userId,
@@ -69,9 +63,8 @@ class StatusCubit extends Cubit<StatusStates> {
           );
           if (userId == uid) {
             myStatus = statusesModel;
-          } else if (!watchedStatuses.contains(statusesModel)&&watchedStatuses.isNotEmpty) {
           } else {
-            recentStatuses.add(statusesModel);
+            statusesList.add(statusesModel);
           }
         }
       }
@@ -90,6 +83,7 @@ class StatusCubit extends Cubit<StatusStates> {
       ));
     } catch (error) {
       emit(PickMediaStatusErrorState());
+      rethrow;
     }
   }
 
@@ -100,7 +94,6 @@ class StatusCubit extends Cubit<StatusStates> {
 
   void makeStatusWatched(StatusesModel statusesModel) {
     if (statusesModel.uId != uid && !watchedStatuses.contains(statusesModel)) {
-      recentStatuses.remove(statusesModel);
       watchedStatuses.add(statusesModel);
     }
     emit(MakeStatusWatchedState());

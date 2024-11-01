@@ -1,4 +1,3 @@
-import 'package:chat_app/core/themes/colors.dart';
 import 'package:flutter/material.dart';
 
 class StatusLinearIndicator extends StatelessWidget {
@@ -29,7 +28,7 @@ class StatusLinearIndicator extends StatelessWidget {
                     ? progress
                     : (index < currentPageIndex ? 1 : 0),
                 backgroundColor: Colors.grey.shade300,
-                color: AppColors.mainColor,
+                color: Theme.of(context).primaryColor,
                 borderRadius: BorderRadius.circular(3),
               ),
             ),

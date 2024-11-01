@@ -1,24 +1,24 @@
 import 'package:chat_app/core/themes/styles.dart';
 import 'package:chat_app/features/chat/presentation/view_model/chat_cubit.dart';
+import 'package:chat_app/features/chat/presentation/views/widgets/group/group_message_bubble.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'message_bubble.dart';
 
-class BuildChatMessages extends StatefulWidget {
+class BuildGroupMessages extends StatefulWidget {
   final Stream<QuerySnapshot> messagesStream;
   final ScrollController scrollController;
 
-  const BuildChatMessages({
+  const BuildGroupMessages({
     super.key,
     required this.messagesStream, required this.scrollController,
   });
 
   @override
-  State<BuildChatMessages> createState() => _BuildChatMessagesState();
+  State<BuildGroupMessages> createState() => _BuildGroupMessagesState();
 }
 
-class _BuildChatMessagesState extends State<BuildChatMessages> {
+class _BuildGroupMessagesState extends State<BuildGroupMessages> {
   startState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.scrollController.hasClients) {
@@ -33,8 +33,8 @@ class _BuildChatMessagesState extends State<BuildChatMessages> {
 
   @override
   void initState() {
-    startState();
     super.initState();
+    startState();
   }
 
   @override
@@ -53,16 +53,16 @@ class _BuildChatMessagesState extends State<BuildChatMessages> {
               } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                 return Center(child: Text('No messages yet', style: Fonts.font25));
               }
-              cubit.getChatMessages(snapshot.data);
+              cubit.getGroupMessages(snapshot.data);
               return ListView.builder(
                 shrinkWrap: true,
                 controller: widget.scrollController,
                 padding: const EdgeInsets.only(bottom: 70.0),
                 physics: const AlwaysScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return MessageBubble(messageModel: cubit.messages[index]);
+                  return GroupMessageBubble(messageModel: cubit.groupMessages[index]);
                 },
-                itemCount: cubit.messages.length,
+                itemCount: cubit.groupMessages.length,
               );
             },
           );

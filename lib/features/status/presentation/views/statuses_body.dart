@@ -11,7 +11,8 @@ class StatusesBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return BlocProvider(
+      create: (context) => StatusCubit(),
       child: BlocConsumer<StatusCubit, StatusStates>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -26,45 +27,44 @@ class StatusesBody extends StatelessWidget {
                 } else if (!snapshot.hasData) {
                   return const Center(child: Text('No status'));
                 }
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    MyStatusRow(
-                        lastStatus: cubit.myStatus == null
-                            ? null
-                            : cubit.myStatus!
-                                .statuses[cubit.myStatus!.statuses.length - 1]),
-                    if (cubit.recentStatuses.isNotEmpty)
-                      const StatusTextRow(text: "Recent updates"),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: cubit.recentStatuses.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return StatusRow(
-                          statuses: cubit.recentStatuses[index],
-                          isWatched: false,
-                          lastStatus: cubit.recentStatuses[index].statuses[
-                              cubit.recentStatuses[index].statuses.length - 1],
-                        );
-                      },
-                    ),
-                    if (cubit.watchedStatuses.isNotEmpty)
-                      const StatusTextRow(text: "Viewed updates"),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: cubit.watchedStatuses.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return StatusRow(
-                          statuses: cubit.watchedStatuses[index],
-                          isWatched: true,
-                          lastStatus: cubit.watchedStatuses[index].statuses[
-                              cubit.watchedStatuses[index].statuses.length - 1],
-                        );
-                      },
-                    ),
-                  ],
+                cubit.recentStatuses = snapshot.data ?? [];
+                return SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      MyStatusRow(lastStatus: cubit.myStatus?.statuses.last),
+                      if (cubit.recentStatuses.isNotEmpty)
+                        const StatusTextRow(text: "Recent updates"),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: cubit.recentStatuses.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return StatusRow(
+                            statuses: cubit.recentStatuses[index],
+                            isWatched: false,
+                            lastStatus:
+                                cubit.recentStatuses[index].statuses.last,
+                          );
+                        },
+                      ),
+                      if (cubit.watchedStatuses.isNotEmpty)
+                        const StatusTextRow(text: "Viewed updates"),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: cubit.watchedStatuses.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return StatusRow(
+                            statuses: cubit.watchedStatuses[index],
+                            isWatched: true,
+                            lastStatus:
+                                cubit.watchedStatuses[index].statuses.last,
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 );
               },
             );

@@ -1,5 +1,4 @@
 class StatusModel {
-  late String date;
   late dynamic media;
   late dynamic mediaDescription;
   late dynamic text;
@@ -9,7 +8,6 @@ class StatusModel {
   // late List<dynamic>? watchersIds;
 
   StatusModel(
-    this.date,
     this.media,
     this.mediaDescription,
     this.text,
@@ -20,19 +18,17 @@ class StatusModel {
   );
 
   StatusModel.fromJson(Map<String, dynamic>? json, {data}) {
-    date = json!['date'];
+    timestamp = json!['timestamp'];
     media = json['media'];
     mediaDescription = json['mediaDescription'];
     text = json['text'];
     textBGColorIndex = json['textBGColorIndex'];
     statusPlayTime = json['statusPlayTime'];
-    timestamp = json['timestamp'];
     // watchersIds = json['watchersIds'];
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'date': date,
       'media': media,
       'mediaDescription': mediaDescription,
       'text': text,

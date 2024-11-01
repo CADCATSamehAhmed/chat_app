@@ -8,9 +8,10 @@ class NameField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return defaultFormField(
+    return DefaultDormField(
       controller: nameController,
       type: TextInputType.name,
+      filledColor: Theme.of(context).primaryColorLight,
       obscureText: false,
       label: 'your name',
       validate: (String? name) {

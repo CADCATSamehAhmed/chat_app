@@ -8,9 +8,10 @@ class EmailField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     RegExp regex = RegExp(r'^\w+@gmail\.com$');
-    return defaultFormField(
+    return DefaultDormField(
       controller: emailController,
       type: TextInputType.emailAddress,
+      filledColor: Theme.of(context).primaryColorLight,
       obscureText: false,
       label: 'your email',
       validate: (String? email) {

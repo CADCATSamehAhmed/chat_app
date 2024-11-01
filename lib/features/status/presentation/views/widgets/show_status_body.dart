@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:chat_app/core/constants/variables.dart';
 import 'package:chat_app/core/shared_prefences/functions/my_custom_color.dart';
+import 'package:chat_app/core/shared_prefences/functions/my_custom_datetime.dart';
 import 'package:chat_app/core/themes/styles.dart';
 import 'package:chat_app/features/status/data/models/statuses_model.dart';
 import 'package:chat_app/features/status/presentation/view_model/status_cubit.dart';
@@ -9,6 +9,7 @@ import 'package:chat_app/features/status/presentation/views/widgets/status_appba
 import 'package:chat_app/features/status/presentation/views/widgets/status_linear_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class ShowStatusBody extends StatefulWidget {
@@ -124,10 +125,10 @@ class _ShowStatusBodyState extends State<ShowStatusBody> {
                     itemBuilder: (context, index) {
                       return Container(
                         padding: EdgeInsets.fromLTRB(
-                            screenWidth * .02,
-                            screenHeight * .02,
-                            screenWidth * .02,
-                            screenHeight * .04),
+                            10.w,
+                            15.h,
+                            10.w,
+                            30.h),
                         decoration: BoxDecoration(
                             color: MyCustomColor.getStatusBgColor(widget
                                     .statuses
@@ -145,12 +146,12 @@ class _ShowStatusBodyState extends State<ShowStatusBody> {
                           children: [
                             StatusAppbar(
                               statuses: widget.statuses,
-                              statusDate: widget.statuses.statuses[index].date,
+                              statusDate: MyCustomDateTime.getSmartTime(widget.statuses.statuses[index].timestamp.toDate()),
                             ),
                             if (widget.statuses.statuses[index].text != null)
                               Center(
                                 child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: screenWidth * .1),
+                                  padding: EdgeInsets.symmetric(horizontal: 35.w),
                                   child: Text(
                                     widget.statuses.statuses[index].text!,
                                     textAlign: TextAlign.center,

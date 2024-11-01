@@ -1,6 +1,6 @@
-import 'package:chat_app/core/constants/variables.dart';
 import 'package:chat_app/core/themes/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TextRow extends StatelessWidget {
   final String text;
@@ -9,7 +9,7 @@ class TextRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: screenHeight*.03),
+      padding: EdgeInsets.symmetric(vertical: 20.h),
       child: Text(
         text,
         textAlign: TextAlign.start,

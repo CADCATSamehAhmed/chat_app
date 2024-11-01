@@ -8,9 +8,10 @@ class PhoneField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     RegExp phoneRegExp = RegExp(r'^01[0-9]{9}$');
-    return  defaultFormField(
+    return  DefaultDormField(
       controller: phoneController,
       type: TextInputType.phone,
+      filledColor: Theme.of(context).primaryColorLight,
       obscureText: false,
       label: 'your phone',
       validate: (String? phone) {

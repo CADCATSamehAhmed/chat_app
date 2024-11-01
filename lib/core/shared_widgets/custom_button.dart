@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:chat_app/core/themes/styles.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
@@ -38,22 +39,22 @@ class CustomButton extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
             backgroundColor: backgroundColor,
-            padding: const EdgeInsets.symmetric(vertical: 10),
+            padding: EdgeInsets.symmetric(vertical: 10.h),
             shadowColor: shadowColor,
             shape: RoundedRectangleBorder(
-                borderRadius: borderRadius ?? BorderRadius.circular(25))),
+                borderRadius: borderRadius ?? BorderRadius.circular(25.r))),
         child: loading
             ? const CircularProgressIndicator()
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (iconData != null) Icon(iconData, color: Colors.white),
-                  if (iconData != null) const SizedBox(width: 11),
+                  if (iconData != null) SizedBox(width: 10.w),
                   Text(
                     text,
-                    style: Fonts.font25.copyWith(
+                    style: Fonts.font20.copyWith(
                       color: textColor ?? Colors.black,
-                      fontSize: fontSize ?? 25,
+                      fontSize: fontSize ?? 25.sp,
                     ),
                   ),
                 ],

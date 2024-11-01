@@ -1,66 +1,75 @@
-import 'package:chat_app/features/home/presentation/views/home_view.dart';
-import 'package:chat_app/features/profile/presentation/view_model/profile_cubit.dart';
-import 'package:chat_app/features/profile/presentation/views/profile_view.dart';
+import 'package:chat_app/core/themes/dark_theme.dart';
+import 'package:chat_app/core/themes/light_theme.dart';
 import 'package:chat_app/features/splash/presentation/views/splash_view.dart';
-import 'package:chat_app/features/status/presentation/view_model/status_cubit.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
+import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 import 'core/constants/variables.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'features/auth/presentation/views/signup_view.dart';
-import 'features/auth/presentation/views/login_view.dart';
-import 'features/chat/presentation/view_model/chat_cubit.dart';
+import 'core/shared_prefences/bloc_observer.dart';
+import 'core/shared_prefences/cache_helper.dart';
 import 'features/home/presentation/view_model/home_cubit.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'firebase_options.dart';
 
-void main() async{
+GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  final user = FirebaseAuth.instance.currentUser;
-  uid = user?.uid??'z7hbnnp8U1Ufh9oGRD9lXWjCN8Z2';
-  // HomeRepo homeRepo = HomeRepo();
-  // await homeRepo.setupUserPresence(uid??'z7hbnnp8U1Ufh9oGRD9lXWjCN8Z2');
-  runApp(const MyApp());
+  await CacheHelper.init();
+  await ScreenUtil.ensureScreenSize();
+  Bloc.observer = MyBlocObserver();
+  uid = CacheHelper.getData(key: 'uid');
+  ZegoUIKitPrebuiltCallInvitationService().setNavigatorKey(navigatorKey);
+  ZegoUIKit().initLog().then((value) {
+    ZegoUIKitPrebuiltCallInvitationService().useSystemCallingUI(
+      [ZegoUIKitSignalingPlugin()],
+    );
+    // HomeRepo homeRepo = HomeRepo();
+    // await homeRepo.setupUserPresence(uid??'z7hbnnp8U1Ufh9oGRD9lXWjCN8Z2');
+    runApp(MyApp(navigatorKey: navigatorKey));
+  });
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  final GlobalKey<NavigatorState> navigatorKey;
 
-  // This widget is the root of your application.
+  const MyApp({super.key, required this.navigatorKey});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    // uid = CacheHelper.getData(key: 'uid')??'UugIMiy3BrTW7vaKSIqGz78CshC3';//ahmed
-    // uid = CacheHelper.getData(key: 'uid')??'rHmqbxOsYWVDfv5zmJ8h37dD82M2';//omer
-    // uid = CacheHelper.getData(key: 'uid')??'z7hbnnp8U1Ufh9oGRD9lXWjCN8Z2';//sameh
-    screenWidth = MediaQuery.of(context).size.width;
-    screenHeight = MediaQuery.of(context).size.height;
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => HomeCubit()),
-        BlocProvider(create: (context) => ChatCubit()),
-        BlocProvider(create: (context) => StatusCubit()),
-        BlocProvider(create: (context) => ProfileCubit()..getUserData()),
-      ],
-      child: GetMaterialApp(
-        debugShowCheckedModeBanner :false,
-        title: 'Chat App',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        routes: {
-          '/':(context)=>const SplashView(),
-          'login':(context)=>const LoginScreen(),
-          'signup':(context)=>const SignUpScreen(),
-          'home':(context)=>const HomeView(),
-          'profile':(context)=>const ProfileView(),
-        },
-      ),
+    return BlocProvider(
+      create: (context) => HomeCubit(),
+      child: ScreenUtilInit(
+          designSize: const Size(360, 690),
+          minTextAdapt: true,
+          splitScreenMode: true,
+          builder: (_, child) {
+            return BlocConsumer<HomeCubit, HomeStates>(
+              builder: (context, state) {
+                return GetMaterialApp(
+                  navigatorKey: widget.navigatorKey,
+                  debugShowCheckedModeBanner: false,
+                  title: 'Chat App',
+                  theme: lightTheme,
+                  darkTheme: darkTheme,
+                  themeMode: HomeCubit.get(context).appMode,
+                  home: const SplashView(),
+                );
+              },
+              listener: (context, state) {},
+            );
+          }),
     );
   }
 }
-

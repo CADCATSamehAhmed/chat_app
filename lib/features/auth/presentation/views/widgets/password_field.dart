@@ -14,10 +14,11 @@ class PasswordField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return defaultFormField(
+    return DefaultDormField(
       controller: passwordController,
       type: TextInputType.text,
       obscureText: isPasswordVisible,
+      filledColor: Theme.of(context).primaryColorLight,
       label: 'your password',
       validate: (String? password) {
         if (password!.isEmpty) {

@@ -1,7 +1,6 @@
-import 'package:chat_app/core/constants/variables.dart';
 import 'package:chat_app/core/shared_widgets/custom_button.dart';
 import 'package:flutter/material.dart';
-import 'package:chat_app/core/themes/colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AuthButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -13,8 +12,8 @@ class AuthButton extends StatelessWidget {
     return CustomButton(
       text: text,
       onPressed: onPressed,
-      backgroundColor: AppColors.mainColor,
-      width: screenWidth*.9,
+      backgroundColor: Theme.of(context).primaryColor,
+      width: 320.w,
     );
   }
 }

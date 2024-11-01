@@ -7,15 +7,13 @@ import 'dart:io';
 import 'package:get/get.dart';
 
 class StatusRepo {
+
   List<StatusModel> getStatus(QuerySnapshot<Object?>? data) {
     List<StatusModel> status = [];
     if (data != null) {
-      data.docs.forEach((DocumentSnapshot document) {
-        if (document.id != uid) {
-          status.add(
-              StatusModel.fromJson(document.data()! as Map<String, dynamic>));
-        }
-      });
+      for (var document in data.docs) {
+          status.add(StatusModel.fromJson(document.data()! as Map<String, dynamic>));
+      }
     }
     return status;
   }
@@ -36,21 +34,17 @@ class StatusRepo {
     }
   }
 
-  Future<void> addStatus(StatusModel status,bool statusIsMedia,{PlatformFile? media}) async {
+  Future<bool> addStatus(StatusModel status,bool statusIsMedia,{PlatformFile? media}) async {
     try {
       if(statusIsMedia){
         String? newImageUrl = await uploadMedia(media!);
         status.media=newImageUrl;
       }
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(uid)
-          .collection('statuses')
-          .add(status.toMap());
-      print("add Status successfully");
+      await FirebaseFirestore.instance.collection('users').doc(uid).collection('statuses').add(status.toMap());
       Get.back();
+      return true;
     } catch (error) {
-      print("can't add Status:$error");
+      rethrow;
     }
   }
 }

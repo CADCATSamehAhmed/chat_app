@@ -1,5 +1,5 @@
-import 'package:chat_app/core/constants/variables.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CallRowItem extends StatelessWidget {
   const CallRowItem({super.key});
@@ -7,10 +7,8 @@ class CallRowItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: screenWidth * .05, vertical: screenHeight * .01),
-      child: Row(
-        spacing: screenWidth * .05,
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+      child: const Row(
         children: [
           // CircleAvatar(
           //   radius: 30,

@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat_app/core/constants/variables.dart';
 import 'package:chat_app/core/themes/colors.dart';
 import 'package:chat_app/core/themes/styles.dart';
 import 'package:chat_app/features/auth/data/models/user_model.dart';
 import 'package:chat_app/features/chat/presentation/view_model/chat_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StartNewGroupRow extends StatefulWidget {
   final UserModel userModel;
@@ -34,10 +34,8 @@ class _StartNewGroupRowState extends State<StartNewGroupRow> {
               });
             },
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: screenWidth * .05, vertical: screenHeight * .01),
+              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
               child: Row(
-                spacing: screenWidth * .05,
                 children: [
                   Stack(
                     alignment: Alignment.bottomRight,
@@ -62,10 +60,11 @@ class _StartNewGroupRowState extends State<StartNewGroupRow> {
                         ),
                     ],
                   ),
+                  SizedBox(width: 20.w),
                   Text(
                     widget.userModel.name,
                     style:
-                    Fonts.font20.copyWith(fontWeight: FontWeight.bold),
+                    Fonts.font20.copyWith(fontWeight: FontWeight.bold,color: Theme.of(context).primaryColorDark),
                   ),
                 ],
               ),

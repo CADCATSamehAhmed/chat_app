@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chat_app/core/constants/variables.dart';
 import 'package:chat_app/core/themes/styles.dart';
 import 'package:chat_app/features/status/data/models/statuses_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StatusAppbar extends StatelessWidget {
   final StatusesModel statuses;
@@ -12,33 +12,34 @@ class StatusAppbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: 50,
-      left: 10,
-      right: 10,
+      top: 50.h,
+      left: 10.w,
+      right: 10.w,
       child: Row(
-        spacing: 11,
         children: [
           IconButton(
               onPressed: () {
               },
-              icon: const Icon(
+              icon: Icon(
                 Icons.arrow_back,
-                size: 20,
+                size: 20.sp,
                 color: Colors.white,
               )),
+          SizedBox(width: 10.w),
           CircleAvatar(
-            radius: screenWidth * .07,
+            radius: 25.r,
             foregroundImage: CachedNetworkImageProvider(statuses.image),
           ),
+          SizedBox(width: 10.w),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 3,
             children: [
               Text(
                 statuses.name,
                 style: Fonts.font18.copyWith(
                     color: Colors.white, decoration: TextDecoration.none),
               ),
+              SizedBox(height: 5.h),
               Text(
                 statusDate,
                 style: Fonts.font14.copyWith(
@@ -47,12 +48,15 @@ class StatusAppbar extends StatelessWidget {
               ),
             ],
           ),
+          SizedBox(width: 10.w),
           const Spacer(),
+          SizedBox(width: 10.w),
           IconButton(
             onPressed: () {},
-            icon: const Icon(
+            icon: Icon(
               Icons.more_vert,
               color: Colors.white,
+              size: 20.sp,
             ),
           ),
         ],

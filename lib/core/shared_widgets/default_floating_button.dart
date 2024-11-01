@@ -1,6 +1,5 @@
-import 'package:chat_app/core/constants/variables.dart';
-import 'package:chat_app/core/themes/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DefaultFloatingButton extends StatelessWidget {
   final IconData icon;
@@ -33,19 +32,21 @@ class DefaultFloatingButton extends StatelessWidget {
       tooltip: tooltip??'FloatingActionButtonTooltip',
       mini: mini,
       onPressed: onPressed,
-      backgroundColor: backgroundColor??AppColors.mainColor,
+      backgroundColor: backgroundColor??Theme.of(context).primaryColor,
+      shape: const CircleBorder(),
       child: Container(
-        padding: EdgeInsets.all(screenWidth * .02),
-        height: height??screenWidth * .25,
-        width: width??screenWidth * .25,
+        padding: EdgeInsets.all(10.w),
+        height: height??90.w,
+        width: width??90.w,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(borderRadius??screenWidth * .05),
-          color: backgroundColor??AppColors.mainColor,
+          borderRadius: BorderRadius.circular(borderRadius??45.r),
+          color: backgroundColor??Theme.of(context).primaryColor,
         ),
         child: Center(
           child: Icon(
             icon,
             color: Colors.white,
+            size: mini?20.sp:30.sp,
           ),
         ),
       ),

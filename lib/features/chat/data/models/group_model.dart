@@ -1,45 +1,49 @@
+import 'package:chat_app/features/chat/data/models/message_model.dart';
+
 class GroupModel {
-  late String chatId;
-  late String name;
-  late List<dynamic> participantsIds;
-  late String image;
-  late String lastMessage;
-  late String lastMessageDate;
+  late String groupId;
+  late List<dynamic> groupPartnerIds;
+  late String groupAdminId;
   late int newMessagesNumber;
   late dynamic timestamp;
+  late String groupName;
+  late String groupImage;
+  late MessageModel? lastMessage;
 
   GroupModel(
-      this.chatId,
-      this.name,
-      this.image,
-      this.participantsIds,
-      this.lastMessage,
-      this.lastMessageDate,
+      this.groupId,
+      this.groupPartnerIds,
+      this.groupAdminId,
       this.newMessagesNumber,
       this.timestamp,
-      );
+      this.groupName,
+      this.groupImage, {
+      this.lastMessage,
+      });
 
-  GroupModel.fromJson(Map<String, dynamic>? json, {data}) {
-    chatId = json!['chatId'];
-    name = json['name'];
-    image = json['image'];
-    participantsIds = json['participantsIds'];
-    lastMessage = json['lastMessage'];
-    lastMessageDate = json['lastMessageDate'];
-    newMessagesNumber = json['newMessagesNumber'];
+  GroupModel.fromJson(
+      Map<String, dynamic>? json,
+      MessageModel? groupLastMessage,
+      ) {
+    groupId = json!['groupId'];
+    groupPartnerIds = json['groupPartnerIds'];
+    groupAdminId = json['groupAdminId'];
     timestamp = json['timestamp'];
+    newMessagesNumber = json['newMessagesNumber'];
+    groupName=json['groupName'];
+    groupImage=json['groupImage'];
+    lastMessage=groupLastMessage;
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'chatId': chatId,
-      'name': name,
-      'image': image,
-      'participantsIds': participantsIds,
-      'lastMessage': lastMessage,
-      'lastMessageDate': lastMessageDate,
-      'newMessagesNumber': newMessagesNumber,
+      'groupId': groupId,
+      'groupPartnerIds': groupPartnerIds,
+      'groupAdminId': groupAdminId,
+      'groupName': groupName,
+      'groupImage': groupImage,
       'timestamp': timestamp,
+      'newMessagesNumber': newMessagesNumber,
     };
   }
 }

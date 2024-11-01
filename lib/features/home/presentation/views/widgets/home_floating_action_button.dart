@@ -1,7 +1,7 @@
 import 'package:chat_app/core/shared_widgets/default_floating_button.dart';
-import 'package:chat_app/core/themes/colors.dart';
 import 'package:chat_app/features/chat/presentation/view_model/chat_cubit.dart';
-import 'package:chat_app/features/chat/presentation/views/widgets/start_new_chat_body.dart';
+import 'package:chat_app/features/chat/presentation/views/widgets/chat/start_new_chat_body.dart';
+import 'package:chat_app/features/chat/presentation/views/widgets/group/start_new_group_body.dart';
 import 'package:chat_app/features/status/presentation/view_model/status_cubit.dart';
 import 'package:chat_app/features/status/presentation/views/widgets/add_new_status_text_body.dart';
 import 'package:flutter/material.dart';
@@ -16,48 +16,71 @@ class HomeFloatingActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (index == 0) {
-      return BlocConsumer<ChatCubit, ChatStates>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          return DefaultFloatingButton(
-            tooltip: 'start new chat',
-            onPressed: () {
-              ChatCubit.get(context).getUsers();
-              g.Get.to(()=>const StartNewChatBody(),transition: g.Transition.rightToLeft);
-            },
-            icon: Icons.chat,
-          );
-        },
-      );
-    } else if (index == 1) {
-      return BlocConsumer<StatusCubit, StatusStates>(
+      return BlocProvider(
+        create: (context) => ChatCubit(),
+        child: BlocConsumer<ChatCubit, ChatStates>(
           listener: (context, state) {},
           builder: (context, state) {
-          return Column(
-            spacing: 6,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              DefaultFloatingButton(
-                heroTag: 'NewTextStatusTag',
-                tooltip: 'type text status',
-                mini: true,
-                onPressed: () {
-                  g.Get.to(() => const AddNewStatusTextBody(),
-                      transition: g.Transition.downToUp);
-                },
-                icon: Icons.chat,
-              ),
-              DefaultFloatingButton(
-                tooltip: 'add media status',
-                onPressed: () async {
-                  await StatusCubit.get(context).pickMediaStatus();
-                },
-                backgroundColor: AppColors.mainColor,
-                icon: Icons.camera_alt,
-              ),
-            ],
-          );
-        }
+            return DefaultFloatingButton(
+              tooltip: 'start new chat',
+              onPressed: () {
+                ChatCubit.get(context).getUsers();
+                g.Get.to(()=>const StartNewChatBody(),transition: g.Transition.rightToLeft);
+              },
+              icon: Icons.messenger,
+            );
+          },
+        ),
+      );
+    }else if (index == 1) {
+      return BlocProvider(
+        create: (context) => ChatCubit(),
+        child: BlocConsumer<ChatCubit, ChatStates>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            return DefaultFloatingButton(
+              tooltip: 'start new group',
+              onPressed: () {
+                ChatCubit.get(context).getUsers();
+                g.Get.to(()=>const StartNewGroupBody(),transition: g.Transition.rightToLeft);
+              },
+              icon: Icons.groups,
+            );
+          },
+        ),
+      );
+    }
+    else if (index == 2) {
+      return BlocProvider(
+        create: (context) => StatusCubit(),
+        child: BlocConsumer<StatusCubit, StatusStates>(
+            listener: (context, state) {},
+            builder: (context, state) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                DefaultFloatingButton(
+                  heroTag: 'NewTextStatusTag',
+                  tooltip: 'type text status',
+                  mini: true,
+                  onPressed: () {
+                    g.Get.to(() => const AddNewStatusTextBody(),
+                        transition: g.Transition.downToUp);
+                  },
+                  icon: Icons.chat,
+                ),
+                const SizedBox(height: 6),
+                DefaultFloatingButton(
+                  tooltip: 'add media status',
+                  onPressed: () async {
+                    await StatusCubit.get(context).pickMediaStatus();
+                  },
+                  icon: Icons.camera_alt,
+                ),
+              ],
+            );
+          }
+        ),
       );
     } else {
       return DefaultFloatingButton(

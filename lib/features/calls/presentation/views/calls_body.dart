@@ -1,6 +1,6 @@
-import 'package:chat_app/core/constants/variables.dart';
 import 'package:chat_app/core/themes/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CallsBody extends StatelessWidget {
   const CallsBody({super.key});
@@ -9,7 +9,7 @@ class CallsBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: screenWidth*.05),
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: Text(
           "To start calling contacts who have WhatsUp,tap call icon at the bottom of your screen",
           textAlign: TextAlign.center,

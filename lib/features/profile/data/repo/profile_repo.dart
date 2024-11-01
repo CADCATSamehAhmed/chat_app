@@ -7,23 +7,16 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class ProfileRepo {
-  static String? myId = uid;
   static CollectionReference users =
       FirebaseFirestore.instance.collection('users');
 
   static Future<UserModel?> getProfileData() async {
-      final document = await users.doc(myId).get();
+      final document = await users.doc(uid).get();
       if(document.exists) {
         UserModel profileData = UserModel.fromJson(document.data()! as Map<String, dynamic>);
-        print("sure i got user data of:${profileData.name}");
-        print(profileData.uid);
-        print(profileData.email);
-        print(profileData.phone);
-        print(profileData.image);
         return profileData;
       }
       else {
-        print("can't get user data");
         return null;
       }
   }
@@ -43,18 +36,18 @@ class ProfileRepo {
     }
   }
 
-  Future<void> updateProfileData(String name,String phone,PlatformFile image) async {
+  Future<bool> updateProfileData(String name,String phone,PlatformFile image) async {
     try {
       String? newImageUrl = await uploadImage(image);
       if(newImageUrl != null){
-        await users.doc(myId).update({'name':name,'phone':phone,'image':newImageUrl});
-        print("yup, user data updated");
+        await users.doc(uid).update({'name':name,'phone':phone,'image':newImageUrl});
+        return true;
       }
       else{
-        print("sorry can't upload the image:$newImageUrl");
+        return false;
       }
     } catch (error) {
-      print("sorry can't update user data:$error");
+      rethrow;
     }
   }
 }
